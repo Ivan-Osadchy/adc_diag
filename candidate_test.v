@@ -29,7 +29,10 @@ module data_acquire(
 	output [11:0]	data_o,
 	output 			data_rdy_o
 );
-
+	
+	wire signed [11:0] 	adc_data_i;
+	wire signed	[11:0] 	data_o;
+	
 
 	// detecting posedge of syncro_i:
 	reg r_syncro_i;
@@ -44,11 +47,11 @@ module data_acquire(
 	`define 	STATE_WAIT_ADC_START 	2'd2
 	`define 	STATE_WAIT_ADC_READY 	2'd3
 	
-	reg [1:0] 	state;
-	reg [3:0] 	syscnt;
-	reg 		adc_data_req_o;
-	reg [14:0] 	adc_data_acc;
-	reg 		data_rdy_o;
+	reg 		[1:0] 	state;
+	reg 		[3:0] 	syscnt;
+	reg 				adc_data_req_o;
+	reg signed [14:0] 	adc_data_acc;
+	reg 				data_rdy_o;
 	
 	always @ (posedge clk_i or negedge reset_n_i) begin
 		if (~reset_n_i) begin
